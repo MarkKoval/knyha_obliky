@@ -18,38 +18,6 @@ const iosTheme = createTheme({
     fontFamily: '"SF Pro Display", "Segoe UI", system-ui, -apple-system, sans-serif'
   },
   components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        '@media print': {
-          body: {
-            background: '#ffffff'
-          },
-          'body *': {
-            visibility: 'hidden'
-          },
-          '.print-area, .print-area *': {
-            visibility: 'visible'
-          },
-          '.print-area': {
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            width: '100%',
-            height: 'auto',
-            boxShadow: 'none'
-          },
-          '.print-area .MuiDataGrid-root': {
-            height: 'auto'
-          },
-          '.print-area .MuiDataGrid-virtualScroller': {
-            overflow: 'visible'
-          },
-          '.print-area .MuiDataGrid-virtualScrollerContent': {
-            height: 'auto'
-          }
-        }
-      }
-    },
     MuiPaper: {
       styleOverrides: {
         root: {

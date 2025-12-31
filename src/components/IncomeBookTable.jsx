@@ -44,7 +44,7 @@ export default function IncomeBookTable({ rows, search, dateRange }) {
   }, [rows, search, dateRange]);
 
   return (
-    <Card className="print-area" sx={{ height: 520 }}>
+    <Card sx={{ height: 520 }}>
       <DataGrid
         rows={filteredRows}
         columns={columns}
