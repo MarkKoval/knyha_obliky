@@ -16,7 +16,16 @@ function parseDateValue(value) {
     return new Date(excelEpoch.getTime() + value * 86400000);
   }
   if (typeof value === 'string') {
-    const parsed = new Date(value);
+    const trimmed = value.trim();
+    const match = trimmed.match(/^(\d{1,2})[./](\d{1,2})[./](\d{4})$/);
+    if (match) {
+      const [, day, month, year] = match;
+      const parsed = new Date(Number(year), Number(month) - 1, Number(day));
+      if (!Number.isNaN(parsed.getTime())) {
+        return parsed;
+      }
+    }
+    const parsed = new Date(trimmed);
     if (!Number.isNaN(parsed.getTime())) {
       return parsed;
     }
