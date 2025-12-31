@@ -100,41 +100,6 @@ export default function App() {
     clearLastDocument();
   };
 
-  const handlePrint = async () => {
-    const printArea = document.querySelector('.print-area');
-    if (!printArea) {
-      return;
-    }
-
-    const pdf = await html2pdf()
-      .from(printArea)
-      .set({
-        filename: 'income-book.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
-      })
-      .toPdf()
-      .get('pdf');
-
-    if (pdf?.autoPrint) {
-      pdf.autoPrint();
-    }
-
-    const blobUrl = pdf.output('bloburl');
-    const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    iframe.src = blobUrl;
-    document.body.appendChild(iframe);
-    iframe.onload = () => {
-      iframe.contentWindow?.focus();
-      iframe.contentWindow?.print();
-      setTimeout(() => {
-        URL.revokeObjectURL(blobUrl);
-        iframe.remove();
-      }, 1000);
-    };
-  };
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
