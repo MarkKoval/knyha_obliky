@@ -187,9 +187,6 @@ export default function ExportButtons({ rows, disabled, year }) {
         <Button variant="contained" onClick={handleExcel} disabled={disabled}>
           Експорт у Excel
         </Button>
-        <Button variant="outlined" onClick={handlePdfExport} disabled={disabled}>
-          Експорт у PDF
-        </Button>
         <Button variant="outlined" onClick={handlePdfPrint} disabled={disabled}>
           Друк PDF
         </Button>
