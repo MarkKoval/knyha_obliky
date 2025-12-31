@@ -100,6 +100,8 @@ export default function App() {
     clearLastDocument();
   };
 
+  const handlePrint = () => {};
+
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
