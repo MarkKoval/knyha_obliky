@@ -37,6 +37,7 @@ export default function ExportButtons({ rows, disabled }) {
     const table = document.createElement('table');
     table.style.width = '100%';
     table.style.borderCollapse = 'collapse';
+    table.style.borderSpacing = '0';
     table.style.pageBreakInside = 'auto';
     table.style.breakInside = 'auto';
     table.innerHTML = `
@@ -50,19 +51,19 @@ export default function ExportButtons({ rows, disabled }) {
             .join('')}
         </tr>
       </thead>
-      <tbody style="display: table-row-group;">
+      <tbody style="display: table-row-group;page-break-inside:auto;break-inside:auto;">
         ${rows
           .map((row) => {
             const isSummary = row.rowType === 'summary';
             return `
               <tr style="${isSummary ? 'font-weight:700;background:#f1f4ff;' : ''}page-break-inside:avoid;break-inside:avoid;">
-                <td style="border:1px solid #ddd;padding:6px;page-break-inside:avoid;break-inside:avoid;">${row.date}</td>
-                <td style="border:1px solid #ddd;padding:6px;page-break-inside:avoid;break-inside:avoid;">${row.cash}</td>
-                <td style="border:1px solid #ddd;padding:6px;page-break-inside:avoid;break-inside:avoid;">${row.nonCash}</td>
-                <td style="border:1px solid #ddd;padding:6px;page-break-inside:avoid;break-inside:avoid;">${row.refund}</td>
-                <td style="border:1px solid #ddd;padding:6px;page-break-inside:avoid;break-inside:avoid;">${row.transit}</td>
-                <td style="border:1px solid #ddd;padding:6px;page-break-inside:avoid;break-inside:avoid;">${row.own}</td>
-                <td style="border:1px solid #ddd;padding:6px;page-break-inside:avoid;break-inside:avoid;">${row.total}</td>
+                <td style="border:1px solid #ddd;padding:6px;">${row.date}</td>
+                <td style="border:1px solid #ddd;padding:6px;">${row.cash}</td>
+                <td style="border:1px solid #ddd;padding:6px;">${row.nonCash}</td>
+                <td style="border:1px solid #ddd;padding:6px;">${row.refund}</td>
+                <td style="border:1px solid #ddd;padding:6px;">${row.transit}</td>
+                <td style="border:1px solid #ddd;padding:6px;">${row.own}</td>
+                <td style="border:1px solid #ddd;padding:6px;">${row.total}</td>
               </tr>
             `;
           })
@@ -130,7 +131,8 @@ export default function ExportButtons({ rows, disabled }) {
         margin: 10,
         filename: 'income-book.pdf',
         html2canvas: { scale: 2 },
-        jsPDF: { orientation: 'landscape' }
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+        jsPDF: { orientation: 'landscape', format: 'a4', unit: 'mm' }
       })
       .from(table)
       .save();
@@ -143,7 +145,8 @@ export default function ExportButtons({ rows, disabled }) {
         margin: 10,
         filename: 'income-book.pdf',
         html2canvas: { scale: 2 },
-        jsPDF: { orientation: 'landscape' }
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+        jsPDF: { orientation: 'landscape', format: 'a4', unit: 'mm' }
       })
       .from(table)
       .toPdf()
