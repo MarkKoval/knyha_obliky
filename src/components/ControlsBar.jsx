@@ -18,7 +18,8 @@ export default function ControlsBar({
   onSearchChange,
   dateRange,
   onDateRangeChange,
-  onReset
+  onReset,
+  onPrint
 }) {
   return (
     <Card sx={{ p: 2 }}>
@@ -90,9 +91,14 @@ export default function ControlsBar({
               <ToggleButton value="hide">Приховати</ToggleButton>
             </ToggleButtonGroup>
           </Stack>
-          <Button color="inherit" onClick={onReset}>
-            Очистити
-          </Button>
+          <Stack direction="row" spacing={2} alignItems="center">
+            <Button color="inherit" onClick={onPrint}>
+              Друк
+            </Button>
+            <Button color="inherit" onClick={onReset}>
+              Очистити
+            </Button>
+          </Stack>
         </Stack>
       </Stack>
     </Card>
