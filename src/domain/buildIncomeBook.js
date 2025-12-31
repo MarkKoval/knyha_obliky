@@ -29,6 +29,15 @@ export default function buildIncomeBook(rawRows, mapping, options) {
   const { groupByDay } = options;
 
   rawRows.forEach((row) => {
+    const creditValue = row['Кредит'];
+    const hasCreditValue =
+      creditValue !== null &&
+      creditValue !== undefined &&
+      (typeof creditValue === 'number' || creditValue.toString().trim() !== '');
+    if (!hasCreditValue) {
+      return;
+    }
+
     const dateValue = parseDateValue(row[mapping.date]);
     const amount = normalizeNumber(row[mapping.amount]);
     const description = mapping.description ? row[mapping.description] : '';
