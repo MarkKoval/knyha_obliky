@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 import formatDate from '../utils/formatDate.js';
 import normalizeNumber from '../utils/normalizeNumber.js';
+import roundToCents from '../utils/roundToCents.js';
 
 const keywords = ['надходження', 'зарахування'];
 
@@ -80,8 +81,8 @@ export default function buildIncomeBook(rawRows, mapping, options) {
         own: '',
         total: 0
       };
-      existing.nonCash += amount;
-      existing.total += amount;
+      existing.nonCash = roundToCents(existing.nonCash + amount);
+      existing.total = roundToCents(existing.total + amount);
       grouped.set(key, existing);
     } else {
       const id = `${key}-${grouped.size + 1}`;
@@ -90,11 +91,11 @@ export default function buildIncomeBook(rawRows, mapping, options) {
         date: formatted,
         rawDate: dateValue,
         cash: '',
-        nonCash: amount,
+        nonCash: roundToCents(amount),
         refund: '',
         transit: '',
         own: '',
-        total: amount
+        total: roundToCents(amount)
       });
     }
   });

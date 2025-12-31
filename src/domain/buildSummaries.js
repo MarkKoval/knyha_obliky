@@ -12,6 +12,7 @@ import {
   getNineMonthSummaryLabel,
   getYearSummaryLabel
 } from '../utils/periodHelpers.js';
+import roundToCents from '../utils/roundToCents.js';
 
 function buildSummaryRow({ label, amount, id, rawDate }) {
   return {
@@ -43,11 +44,11 @@ export default function buildSummaries(rows) {
   rows.forEach((row, index) => {
     const date = row.rawDate;
     const next = rows[index + 1];
-    monthTotal += row.total;
-    quarterTotal += row.total;
-    halfTotal += row.total;
-    nineMonthTotal += row.total;
-    yearTotal += row.total;
+    monthTotal = roundToCents(monthTotal + row.total);
+    quarterTotal = roundToCents(quarterTotal + row.total);
+    halfTotal = roundToCents(halfTotal + row.total);
+    nineMonthTotal = roundToCents(nineMonthTotal + row.total);
+    yearTotal = roundToCents(yearTotal + row.total);
 
     result.push(row);
 
