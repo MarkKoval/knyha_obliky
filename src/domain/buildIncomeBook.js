@@ -16,7 +16,24 @@ function parseDateValue(value) {
     return new Date(excelEpoch.getTime() + value * 86400000);
   }
   if (typeof value === 'string') {
-    const parsed = new Date(value);
+    const trimmed = value.trim();
+    const match = trimmed.match(
+      /^(\d{1,2})[./](\d{1,2})[./](\d{4})(?:\s+(\d{1,2}):(\d{2}))?$/
+    );
+    if (match) {
+      const [, day, month, year, hour = '0', minute = '0'] = match;
+      const parsed = new Date(
+        Number(year),
+        Number(month) - 1,
+        Number(day),
+        Number(hour),
+        Number(minute)
+      );
+      if (!Number.isNaN(parsed.getTime())) {
+        return parsed;
+      }
+    }
+    const parsed = new Date(trimmed);
     if (!Number.isNaN(parsed.getTime())) {
       return parsed;
     }
@@ -29,6 +46,15 @@ export default function buildIncomeBook(rawRows, mapping, options) {
   const { groupByDay } = options;
 
   rawRows.forEach((row) => {
+    const creditValue = row['Кредит'];
+    const hasCreditValue =
+      creditValue !== null &&
+      creditValue !== undefined &&
+      (typeof creditValue === 'number' || creditValue.toString().trim() !== '');
+    if (!hasCreditValue) {
+      return;
+    }
+
     const dateValue = parseDateValue(row[mapping.date]);
     const amount = normalizeNumber(row[mapping.amount]);
     const description = mapping.description ? row[mapping.description] : '';
