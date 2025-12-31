@@ -130,6 +130,19 @@ export default function ExportButtons({ rows, disabled }) {
     }
 
     const blobUrl = pdf.output('bloburl');
+    const printWindow = window.open(blobUrl, '_blank', 'noopener,noreferrer');
+    if (printWindow) {
+      printWindow.onload = () => {
+        printWindow.focus();
+        printWindow.print();
+      };
+      printWindow.onafterprint = () => {
+        URL.revokeObjectURL(blobUrl);
+        printWindow.close();
+      };
+      return;
+    }
+
     const iframe = document.createElement('iframe');
     iframe.style.display = 'none';
     iframe.src = blobUrl;
