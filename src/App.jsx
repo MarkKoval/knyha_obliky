@@ -78,11 +78,19 @@ export default function App() {
   }, [incomeRows, showSummaries]);
 
   const documentYear = useMemo(() => {
-    const firstRow = incomeRows[0];
-    if (firstRow?.rawDate instanceof Date) {
-      return firstRow.rawDate.getFullYear();
+    if (!incomeRows.length) {
+      return currentYear;
     }
-    return currentYear;
+    const firstDate = incomeRows.reduce((min, row) => {
+      if (!(row.rawDate instanceof Date)) {
+        return min;
+      }
+      if (!min) {
+        return row.rawDate;
+      }
+      return row.rawDate < min ? row.rawDate : min;
+    }, null);
+    return firstDate ? firstDate.getFullYear() : currentYear;
   }, [incomeRows, currentYear]);
 
   const handleFile = async (file) => {
@@ -170,7 +178,7 @@ export default function App() {
             <ExportButtons
               rows={displayRows}
               disabled={!displayRows.length}
-              documentYear={documentYear}
+              year={documentYear}
             />
           </>
         )}
