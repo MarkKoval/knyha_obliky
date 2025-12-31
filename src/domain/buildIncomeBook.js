@@ -17,10 +17,18 @@ function parseDateValue(value) {
   }
   if (typeof value === 'string') {
     const trimmed = value.trim();
-    const match = trimmed.match(/^(\d{1,2})[./](\d{1,2})[./](\d{4})$/);
+    const match = trimmed.match(
+      /^(\d{1,2})[./](\d{1,2})[./](\d{4})(?:\s+(\d{1,2}):(\d{2}))?$/
+    );
     if (match) {
-      const [, day, month, year] = match;
-      const parsed = new Date(Number(year), Number(month) - 1, Number(day));
+      const [, day, month, year, hour = '0', minute = '0'] = match;
+      const parsed = new Date(
+        Number(year),
+        Number(month) - 1,
+        Number(day),
+        Number(hour),
+        Number(minute)
+      );
       if (!Number.isNaN(parsed.getTime())) {
         return parsed;
       }
