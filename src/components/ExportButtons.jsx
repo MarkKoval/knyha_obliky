@@ -131,7 +131,7 @@ export default function ExportButtons({ rows, disabled }) {
         margin: 10,
         filename: 'income-book.pdf',
         html2canvas: { scale: 2 },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+        pagebreak: { mode: ['css', 'legacy'] },
         jsPDF: { orientation: 'landscape', format: 'a4', unit: 'mm' }
       })
       .from(table)
@@ -145,7 +145,7 @@ export default function ExportButtons({ rows, disabled }) {
         margin: 10,
         filename: 'income-book.pdf',
         html2canvas: { scale: 2 },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+        pagebreak: { mode: ['css', 'legacy'] },
         jsPDF: { orientation: 'landscape', format: 'a4', unit: 'mm' }
       })
       .from(table)
