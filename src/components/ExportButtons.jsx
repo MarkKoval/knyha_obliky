@@ -40,7 +40,7 @@ export default function ExportButtons({ rows, disabled }) {
     table.style.pageBreakInside = 'auto';
     table.style.breakInside = 'auto';
     table.innerHTML = `
-      <thead>
+      <thead style="display: table-header-group;">
         <tr>
           ${headers
             .map(
@@ -50,19 +50,19 @@ export default function ExportButtons({ rows, disabled }) {
             .join('')}
         </tr>
       </thead>
-      <tbody>
+      <tbody style="display: table-row-group;">
         ${rows
           .map((row) => {
             const isSummary = row.rowType === 'summary';
             return `
               <tr style="${isSummary ? 'font-weight:700;background:#f1f4ff;' : ''}page-break-inside:avoid;break-inside:avoid;">
-                <td style="border:1px solid #ddd;padding:6px;">${row.date}</td>
-                <td style="border:1px solid #ddd;padding:6px;">${row.cash}</td>
-                <td style="border:1px solid #ddd;padding:6px;">${row.nonCash}</td>
-                <td style="border:1px solid #ddd;padding:6px;">${row.refund}</td>
-                <td style="border:1px solid #ddd;padding:6px;">${row.transit}</td>
-                <td style="border:1px solid #ddd;padding:6px;">${row.own}</td>
-                <td style="border:1px solid #ddd;padding:6px;">${row.total}</td>
+                <td style="border:1px solid #ddd;padding:6px;page-break-inside:avoid;break-inside:avoid;">${row.date}</td>
+                <td style="border:1px solid #ddd;padding:6px;page-break-inside:avoid;break-inside:avoid;">${row.cash}</td>
+                <td style="border:1px solid #ddd;padding:6px;page-break-inside:avoid;break-inside:avoid;">${row.nonCash}</td>
+                <td style="border:1px solid #ddd;padding:6px;page-break-inside:avoid;break-inside:avoid;">${row.refund}</td>
+                <td style="border:1px solid #ddd;padding:6px;page-break-inside:avoid;break-inside:avoid;">${row.transit}</td>
+                <td style="border:1px solid #ddd;padding:6px;page-break-inside:avoid;break-inside:avoid;">${row.own}</td>
+                <td style="border:1px solid #ddd;padding:6px;page-break-inside:avoid;break-inside:avoid;">${row.total}</td>
               </tr>
             `;
           })
