@@ -42,7 +42,7 @@ const buildTableHtml = (rows) =>
     .join('');
 
 const openPdfWindow = ({ rows, year, autoPrint }) => {
-  const printWindow = window.open('', '_blank', 'noopener,noreferrer');
+  const printWindow = window.open('', '_blank');
   if (!printWindow) {
     return;
   }
