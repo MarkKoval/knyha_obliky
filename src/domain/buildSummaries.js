@@ -8,11 +8,11 @@ import {
 import {
   getMonthSummaryLabel,
   getQuarterSummaryLabel,
-  getTwoQuarterSummaryLabel,
   getHalfYearSummaryLabel,
   getNineMonthSummaryLabel,
   getYearSummaryLabel
 } from '../utils/periodHelpers.js';
+import roundToCents from '../utils/roundToCents.js';
 
 function buildSummaryRow({ label, amount, id, rawDate }) {
   return {
@@ -38,19 +38,17 @@ export default function buildSummaries(rows) {
   let monthTotal = 0;
   let quarterTotal = 0;
   let halfTotal = 0;
-  let twoQuarterTotal = 0;
   let nineMonthTotal = 0;
   let yearTotal = 0;
 
   rows.forEach((row, index) => {
     const date = row.rawDate;
     const next = rows[index + 1];
-    monthTotal += row.total;
-    quarterTotal += row.total;
-    halfTotal += row.total;
-    twoQuarterTotal += row.total;
-    nineMonthTotal += row.total;
-    yearTotal += row.total;
+    monthTotal = roundToCents(monthTotal + row.total);
+    quarterTotal = roundToCents(quarterTotal + row.total);
+    halfTotal = roundToCents(halfTotal + row.total);
+    nineMonthTotal = roundToCents(nineMonthTotal + row.total);
+    yearTotal = roundToCents(yearTotal + row.total);
 
     result.push(row);
 
@@ -82,18 +80,6 @@ export default function buildSummaries(rows) {
         })
       );
       quarterTotal = 0;
-    }
-
-    if (isEndOfQuarter && (getQuarter(date) === 2 || getQuarter(date) === 4)) {
-      result.push(
-        buildSummaryRow({
-          label: getTwoQuarterSummaryLabel(date),
-          amount: twoQuarterTotal,
-          id: `${row.id}-two-quarter-summary`,
-          rawDate: date
-        })
-      );
-      twoQuarterTotal = 0;
     }
 
     if (isEndOfHalf) {
@@ -130,7 +116,6 @@ export default function buildSummaries(rows) {
         })
       );
       yearTotal = 0;
-      twoQuarterTotal = 0;
       nineMonthTotal = 0;
     }
   });
