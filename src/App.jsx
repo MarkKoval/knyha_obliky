@@ -99,6 +99,9 @@ export default function App() {
     clearLastDocument();
   };
 
+  const handlePrint = () => {};
+
+
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Stack spacing={3}>
@@ -144,6 +147,7 @@ export default function App() {
               dateRange={dateRange}
               onDateRangeChange={setDateRange}
               onReset={handleReset}
+              onPrint={handlePrint}
             />
             <Divider />
             <IncomeBookTable
