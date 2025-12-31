@@ -13,6 +13,43 @@ const headers = [
 ];
 
 export default function ExportButtons({ rows, disabled }) {
+  const buildPdfTable = () => {
+    const table = document.createElement('table');
+    table.style.width = '100%';
+    table.style.borderCollapse = 'collapse';
+    table.innerHTML = `
+      <thead>
+        <tr>
+          ${headers
+            .map(
+              (header) =>
+                `<th style="border:1px solid #ddd;padding:6px;background:#f1f4ff;text-align:left;">${header}</th>`
+            )
+            .join('')}
+        </tr>
+      </thead>
+      <tbody>
+        ${rows
+          .map((row) => {
+            const isSummary = row.rowType === 'summary';
+            return `
+              <tr style="${isSummary ? 'font-weight:700;background:#f1f4ff;' : ''}">
+                <td style="border:1px solid #ddd;padding:6px;">${row.date}</td>
+                <td style="border:1px solid #ddd;padding:6px;">${row.cash}</td>
+                <td style="border:1px solid #ddd;padding:6px;">${row.nonCash}</td>
+                <td style="border:1px solid #ddd;padding:6px;">${row.refund}</td>
+                <td style="border:1px solid #ddd;padding:6px;">${row.transit}</td>
+                <td style="border:1px solid #ddd;padding:6px;">${row.own}</td>
+                <td style="border:1px solid #ddd;padding:6px;">${row.total}</td>
+              </tr>
+            `;
+          })
+          .join('')}
+      </tbody>
+    `;
+    return table;
+  };
+
   const handleExcel = async () => {
     const workbook = new ExcelJS.Workbook();
     const sheet = workbook.addWorksheet('Книга');
@@ -62,39 +99,7 @@ export default function ExportButtons({ rows, disabled }) {
   };
 
   const handlePdf = async () => {
-    const table = document.createElement('table');
-    table.style.width = '100%';
-    table.style.borderCollapse = 'collapse';
-    table.innerHTML = `
-      <thead>
-        <tr>
-          ${headers
-            .map(
-              (header) =>
-                `<th style="border:1px solid #ddd;padding:6px;background:#f1f4ff;text-align:left;">${header}</th>`
-            )
-            .join('')}
-        </tr>
-      </thead>
-      <tbody>
-        ${rows
-          .map((row) => {
-            const isSummary = row.rowType === 'summary';
-            return `
-              <tr style="${isSummary ? 'font-weight:700;background:#f1f4ff;' : ''}">
-                <td style="border:1px solid #ddd;padding:6px;">${row.date}</td>
-                <td style="border:1px solid #ddd;padding:6px;">${row.cash}</td>
-                <td style="border:1px solid #ddd;padding:6px;">${row.nonCash}</td>
-                <td style="border:1px solid #ddd;padding:6px;">${row.refund}</td>
-                <td style="border:1px solid #ddd;padding:6px;">${row.transit}</td>
-                <td style="border:1px solid #ddd;padding:6px;">${row.own}</td>
-                <td style="border:1px solid #ddd;padding:6px;">${row.total}</td>
-              </tr>
-            `;
-          })
-          .join('')}
-      </tbody>
-    `;
+    const table = buildPdfTable();
 
     await html2pdf()
       .set({
@@ -107,6 +112,38 @@ export default function ExportButtons({ rows, disabled }) {
       .save();
   };
 
+  const handlePrint = async () => {
+    const table = buildPdfTable();
+    const pdf = await html2pdf()
+      .set({
+        margin: 10,
+        filename: 'income-book.pdf',
+        html2canvas: { scale: 2 },
+        jsPDF: { orientation: 'landscape' }
+      })
+      .from(table)
+      .toPdf()
+      .get('pdf');
+
+    if (pdf?.autoPrint) {
+      pdf.autoPrint();
+    }
+
+    const blobUrl = pdf.output('bloburl');
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = blobUrl;
+    document.body.appendChild(iframe);
+    iframe.onload = () => {
+      iframe.contentWindow?.focus();
+      iframe.contentWindow?.print();
+      setTimeout(() => {
+        URL.revokeObjectURL(blobUrl);
+        iframe.remove();
+      }, 1000);
+    };
+  };
+
   return (
     <Card sx={{ p: 2 }}>
       <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
@@ -115,6 +152,9 @@ export default function ExportButtons({ rows, disabled }) {
         </Button>
         <Button variant="outlined" onClick={handlePdf} disabled={disabled}>
           Експорт у PDF
+        </Button>
+        <Button variant="outlined" onClick={handlePrint} disabled={disabled}>
+          Друк
         </Button>
       </Stack>
     </Card>
