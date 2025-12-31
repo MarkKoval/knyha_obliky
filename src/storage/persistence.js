@@ -2,7 +2,7 @@ const STORAGE_KEY = 'income-book:last';
 
 export function saveLastDocument(payload) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
   } catch (error) {
     console.warn('Failed to save document', error);
   }
@@ -10,7 +10,7 @@ export function saveLastDocument(payload) {
 
 export function loadLastDocument() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = sessionStorage.getItem(STORAGE_KEY);
     if (!raw) {
       return null;
     }
@@ -22,5 +22,5 @@ export function loadLastDocument() {
 }
 
 export function clearLastDocument() {
-  localStorage.removeItem(STORAGE_KEY);
+  sessionStorage.removeItem(STORAGE_KEY);
 }
