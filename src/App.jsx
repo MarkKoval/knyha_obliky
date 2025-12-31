@@ -77,6 +77,14 @@ export default function App() {
     return rowsWithSummaries;
   }, [incomeRows, showSummaries]);
 
+  const documentYear = useMemo(() => {
+    const firstRow = incomeRows[0];
+    if (firstRow?.rawDate instanceof Date) {
+      return firstRow.rawDate.getFullYear();
+    }
+    return currentYear;
+  }, [incomeRows, currentYear]);
+
   const handleFile = async (file) => {
     try {
       setError('');
@@ -111,7 +119,7 @@ export default function App() {
             КНИГА ОБЛІКУ ДОХОДІВ для платників єдиного податку 1,2,3 груп, які не є платниками ПДВ
           </Typography>
           <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mt: 1 }}>
-            <Typography color="text.secondary">на {currentYear} рік</Typography>
+            <Typography color="text.secondary">на {documentYear} рік</Typography>
             <Typography color="text.secondary">одиниці виміру: грн</Typography>
           </Stack>
           <Typography color="text.secondary">
@@ -159,7 +167,11 @@ export default function App() {
               search={search}
               dateRange={dateRange}
             />
-            <ExportButtons rows={displayRows} disabled={!displayRows.length} />
+            <ExportButtons
+              rows={displayRows}
+              disabled={!displayRows.length}
+              documentYear={documentYear}
+            />
           </>
         )}
       </Stack>
