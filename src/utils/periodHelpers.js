@@ -25,12 +25,6 @@ export function getQuarterSummaryLabel(date) {
   return `Підсумок за ${quarter} квартал ${getYear(date)}`;
 }
 
-export function getTwoQuarterSummaryLabel(date) {
-  const quarter = getQuarter(date);
-  const range = quarter === 2 ? '1–2' : '3–4';
-  return `Підсумок за 2 квартали (${range}) ${getYear(date)}`;
-}
-
 export function getHalfYearSummaryLabel(date) {
   const half = getMonth(date) < 6 ? 1 : 2;
   return `Підсумок за ${half} півріччя ${getYear(date)}`;
