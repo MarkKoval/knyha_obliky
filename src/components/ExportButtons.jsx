@@ -37,6 +37,8 @@ export default function ExportButtons({ rows, disabled }) {
     const table = document.createElement('table');
     table.style.width = '100%';
     table.style.borderCollapse = 'collapse';
+    table.style.pageBreakInside = 'auto';
+    table.style.breakInside = 'auto';
     table.innerHTML = `
       <thead>
         <tr>
@@ -53,7 +55,7 @@ export default function ExportButtons({ rows, disabled }) {
           .map((row) => {
             const isSummary = row.rowType === 'summary';
             return `
-              <tr style="${isSummary ? 'font-weight:700;background:#f1f4ff;' : ''}">
+              <tr style="${isSummary ? 'font-weight:700;background:#f1f4ff;' : ''}page-break-inside:avoid;break-inside:avoid;">
                 <td style="border:1px solid #ddd;padding:6px;">${row.date}</td>
                 <td style="border:1px solid #ddd;padding:6px;">${row.cash}</td>
                 <td style="border:1px solid #ddd;padding:6px;">${row.nonCash}</td>
