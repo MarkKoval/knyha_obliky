@@ -35,6 +35,7 @@ export default function App() {
   const [search, setSearch] = useState('');
   const [dateRange, setDateRange] = useState({ from: '', to: '' });
   const [error, setError] = useState('');
+  const currentYear = new Date().getFullYear();
 
   useEffect(() => {
     const saved = loadLastDocument();
@@ -110,6 +111,13 @@ export default function App() {
           <Typography variant="h4" fontWeight={600} gutterBottom>
             Книга обліку доходів
           </Typography>
+          <Typography variant="subtitle1" fontWeight={600}>
+            КНИГА ОБЛІКУ ДОХОДІВ для платників єдиного податку 1,2,3 груп, які не є платниками ПДВ
+          </Typography>
+          <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mt: 1 }}>
+            <Typography color="text.secondary">на {currentYear} рік</Typography>
+            <Typography color="text.secondary">одиниці виміру: грн</Typography>
+          </Stack>
           <Typography color="text.secondary">
             Завантажте банківську виписку, налаштуйте колонки та отримайте готову книгу.
           </Typography>
