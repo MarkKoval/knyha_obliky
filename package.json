@@ -16,7 +16,6 @@
     "@mui/x-data-grid": "^7.6.2",
     "date-fns": "^3.6.0",
     "exceljs": "^4.4.0",
-    "html2pdf.js": "^0.10.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "xlsx": "^0.18.5"

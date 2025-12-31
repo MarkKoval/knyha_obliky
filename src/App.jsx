@@ -14,7 +14,6 @@ import ColumnMapper from './components/ColumnMapper.jsx';
 import IncomeBookTable from './components/IncomeBookTable.jsx';
 import ControlsBar from './components/ControlsBar.jsx';
 import ExportButtons from './components/ExportButtons.jsx';
-import html2pdf from 'html2pdf.js';
 import parseBankStatement from './domain/parseBankStatement.js';
 import buildIncomeBook from './domain/buildIncomeBook.js';
 import buildSummaries from './domain/buildSummaries.js';
@@ -101,9 +100,6 @@ export default function App() {
     clearLastDocument();
   };
 
-  const handlePrint = () => {};
-
-
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Stack spacing={3}>
@@ -156,7 +152,6 @@ export default function App() {
               dateRange={dateRange}
               onDateRangeChange={setDateRange}
               onReset={handleReset}
-              onPrint={handlePrint}
             />
             <Divider />
             <IncomeBookTable
