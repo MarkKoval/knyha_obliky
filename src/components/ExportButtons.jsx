@@ -13,10 +13,32 @@ const headers = [
 ];
 
 export default function ExportButtons({ rows, disabled }) {
+  const getDocumentYear = () => {
+    const rowWithDate = rows.find((row) => row.rawDate instanceof Date);
+    return rowWithDate ? rowWithDate.rawDate.getFullYear() : new Date().getFullYear();
+  };
+
   const buildPdfTable = () => {
+    const container = document.createElement('div');
+    const year = getDocumentYear();
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.gap = '12px';
+
+    const header = document.createElement('div');
+    header.style.textAlign = 'center';
+    header.innerHTML = `
+      <div style="font-weight:700;">
+        КНИГА ОБЛІКУ ДОХОДІВ для платників єдиного податку 1,2,3 груп, які не є платниками ПДВ
+      </div>
+      <div>на ${year} рік</div>
+    `;
+
     const table = document.createElement('table');
     table.style.width = '100%';
     table.style.borderCollapse = 'collapse';
+    table.style.pageBreakInside = 'auto';
+    table.style.breakInside = 'auto';
     table.innerHTML = `
       <thead>
         <tr>
@@ -33,7 +55,7 @@ export default function ExportButtons({ rows, disabled }) {
           .map((row) => {
             const isSummary = row.rowType === 'summary';
             return `
-              <tr style="${isSummary ? 'font-weight:700;background:#f1f4ff;' : ''}">
+              <tr style="${isSummary ? 'font-weight:700;background:#f1f4ff;' : ''}page-break-inside:avoid;break-inside:avoid;">
                 <td style="border:1px solid #ddd;padding:6px;">${row.date}</td>
                 <td style="border:1px solid #ddd;padding:6px;">${row.cash}</td>
                 <td style="border:1px solid #ddd;padding:6px;">${row.nonCash}</td>
@@ -47,7 +69,9 @@ export default function ExportButtons({ rows, disabled }) {
           .join('')}
       </tbody>
     `;
-    return table;
+
+    container.append(header, table);
+    return container;
   };
 
   const handleExcel = async () => {
