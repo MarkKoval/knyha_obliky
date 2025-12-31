@@ -21,8 +21,9 @@ const columns = [
 export default function IncomeBookTable({ rows, search, dateRange }) {
   const filteredRows = useMemo(() => {
     return rows.filter((row) => {
+      const dateText = row?.date ? row.date.toString() : '';
       const matchesSearch = search
-        ? row.date.toLowerCase().includes(search.toLowerCase())
+        ? dateText.toLowerCase().includes(search.toLowerCase())
         : true;
       let matchesDate = true;
       if (dateRange.from || dateRange.to) {
