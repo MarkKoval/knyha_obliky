@@ -51,7 +51,7 @@ export default function ExportButtons({ rows, disabled }) {
             .join('')}
         </tr>
       </thead>
-      <tbody style="display: table-row-group;page-break-inside:auto;break-inside:auto;">
+      <tbody style="display: table-row-group;">
         ${rows
           .map((row) => {
             const isSummary = row.rowType === 'summary';
