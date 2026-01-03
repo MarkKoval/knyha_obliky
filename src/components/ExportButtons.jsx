@@ -81,12 +81,12 @@ const openPdfWindow = ({ rows, year, autoPrint }) => {
             text-align: left;
           }
           th {
-            background: #f3f5f9;
+            background: #edf7f1;
             font-weight: 600;
           }
           .summary-row {
             font-weight: 700;
-            background: #f1f4ff;
+            background: #e3f7ea;
           }
           @media print {
             body {
@@ -148,7 +148,7 @@ export default function ExportButtons({ rows, disabled, year, onReset }) {
         excelRow.fill = {
           type: 'pattern',
           pattern: 'solid',
-          fgColor: { argb: 'FFF1F4FF' }
+          fgColor: { argb: 'FFE3F7EA' }
         };
       }
     });

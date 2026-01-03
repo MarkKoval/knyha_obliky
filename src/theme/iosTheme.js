@@ -4,24 +4,46 @@ const iosTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#0a84ff'
+      main: '#34c759',
+      dark: '#239a3d',
+      light: '#8ee7a6'
+    },
+    secondary: {
+      main: '#1b8f4a'
     },
     background: {
-      default: '#f2f4f8',
+      default: '#f4fbf6',
       paper: '#ffffff'
+    },
+    text: {
+      primary: '#101b14',
+      secondary: '#5f6e63'
+    },
+    divider: 'rgba(52, 199, 89, 0.15)',
+    action: {
+      hover: 'rgba(52, 199, 89, 0.08)',
+      selected: 'rgba(52, 199, 89, 0.16)'
     }
   },
   shape: {
-    borderRadius: 18
+    borderRadius: 20
   },
   typography: {
     fontFamily: '"SF Pro Display", "Segoe UI", system-ui, -apple-system, sans-serif'
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          backgroundImage: 'linear-gradient(180deg, #f6fbf8 0%, #eef6f1 100%)'
+        }
+      }
+    },
     MuiPaper: {
       styleOverrides: {
         root: {
-          boxShadow: '0 14px 40px rgba(16, 24, 40, 0.08)'
+          border: '1px solid rgba(52, 199, 89, 0.12)',
+          boxShadow: '0 18px 50px rgba(15, 23, 42, 0.06)'
         }
       }
     },
@@ -29,43 +51,52 @@ const iosTheme = createTheme({
       styleOverrides: {
         root: {
           textTransform: 'none',
-          borderRadius: 16
+          borderRadius: 18,
+          fontWeight: 600,
+          boxShadow: 'none'
+        },
+        contained: {
+          boxShadow: '0 12px 30px rgba(52, 199, 89, 0.2)'
+        },
+        outlined: {
+          borderColor: 'rgba(52, 199, 89, 0.35)'
         }
       }
     },
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 22,
-          border: '1px solid rgba(226, 232, 240, 0.9)',
-          boxShadow: '0 16px 36px rgba(15, 23, 42, 0.08)'
+          borderRadius: 24,
+          border: '1px solid rgba(52, 199, 89, 0.12)',
+          boxShadow: '0 18px 40px rgba(15, 23, 42, 0.08)'
         }
       }
     },
     MuiDataGrid: {
       styleOverrides: {
         root: {
-          borderRadius: 20,
-          border: '1px solid rgba(226, 232, 240, 0.9)',
+          borderRadius: 22,
+          border: '1px solid rgba(52, 199, 89, 0.16)',
           backgroundColor: '#ffffff'
         },
         columnHeaders: {
-          backgroundColor: '#f7f8fd'
+          backgroundColor: '#f0faf3'
         }
       }
     },
     MuiToggleButtonGroup: {
       styleOverrides: {
         root: {
-          backgroundColor: '#f0f2f8',
-          borderRadius: 16
+          backgroundColor: '#eef7f1',
+          borderRadius: 18,
+          border: '1px solid rgba(52, 199, 89, 0.16)'
         }
       }
     },
     MuiToggleButton: {
       styleOverrides: {
         root: {
-          borderRadius: 14,
+          borderRadius: 16,
           paddingInline: 18
         }
       }

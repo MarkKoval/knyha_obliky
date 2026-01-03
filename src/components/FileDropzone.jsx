@@ -20,8 +20,8 @@ export default function FileDropzone({ onFile, error }) {
       sx={{
         p: 4,
         textAlign: 'center',
-        border: '2px dashed #d0d6f4',
-        backgroundColor: dragActive ? '#eef4ff' : 'background.paper'
+        border: '2px dashed rgba(52, 199, 89, 0.35)',
+        backgroundColor: dragActive ? 'rgba(52, 199, 89, 0.08)' : 'background.paper'
       }}
       onDragOver={(event) => {
         event.preventDefault();
@@ -38,7 +38,7 @@ export default function FileDropzone({ onFile, error }) {
             borderRadius: '50%',
             display: 'grid',
             placeItems: 'center',
-            backgroundColor: '#f2f4ff'
+            backgroundColor: 'rgba(52, 199, 89, 0.12)'
           }}
         >
           <UploadFileIcon color="primary" fontSize="large" />
