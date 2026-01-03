@@ -153,6 +153,7 @@ export default function App() {
             columns={rawColumns}
             mapping={mapping}
             onMappingChange={setMapping}
+            onRowsChange={setRawRows}
           />
         )}
 
@@ -167,7 +168,6 @@ export default function App() {
               onSearchChange={setSearch}
               dateRange={dateRange}
               onDateRangeChange={setDateRange}
-              onReset={handleReset}
             />
             <Divider />
             <IncomeBookTable
@@ -179,6 +179,7 @@ export default function App() {
               rows={displayRows}
               disabled={!displayRows.length}
               year={documentYear}
+              onReset={handleReset}
             />
           </>
         )}

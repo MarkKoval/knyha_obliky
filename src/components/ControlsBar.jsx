@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Card,
   Stack,
   TextField,
@@ -17,8 +16,7 @@ export default function ControlsBar({
   search,
   onSearchChange,
   dateRange,
-  onDateRangeChange,
-  onReset
+  onDateRangeChange
 }) {
   return (
     <Card sx={{ p: 2 }}>
@@ -89,11 +87,6 @@ export default function ControlsBar({
               <ToggleButton value="show">Показати</ToggleButton>
               <ToggleButton value="hide">Приховати</ToggleButton>
             </ToggleButtonGroup>
-          </Stack>
-          <Stack direction="row" spacing={2} alignItems="center">
-            <Button color="inherit" onClick={onReset}>
-              Очистити
-            </Button>
           </Stack>
         </Stack>
       </Stack>
