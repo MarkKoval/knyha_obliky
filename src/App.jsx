@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from "react";
 import {
   Box,
   Container,
@@ -7,22 +7,26 @@ import {
   Stepper,
   Step,
   StepLabel,
-  Divider
-} from '@mui/material';
-import FileDropzone from './components/FileDropzone.jsx';
-import ColumnMapper from './components/ColumnMapper.jsx';
-import IncomeBookTable from './components/IncomeBookTable.jsx';
-import ControlsBar from './components/ControlsBar.jsx';
-import ExportButtons from './components/ExportButtons.jsx';
-import parseBankStatement from './domain/parseBankStatement.js';
-import buildIncomeBook from './domain/buildIncomeBook.js';
-import buildSummaries from './domain/buildSummaries.js';
-import { loadLastDocument, saveLastDocument, clearLastDocument } from './storage/persistence.js';
-import formatDate from './utils/formatDate.js';
-import roundToCents from './utils/roundToCents.js';
+  Divider,
+} from "@mui/material";
+import FileDropzone from "./components/FileDropzone.jsx";
+import ColumnMapper from "./components/ColumnMapper.jsx";
+import IncomeBookTable from "./components/IncomeBookTable.jsx";
+import ControlsBar from "./components/ControlsBar.jsx";
+import ExportButtons from "./components/ExportButtons.jsx";
+import parseBankStatement from "./domain/parseBankStatement.js";
+import buildIncomeBook from "./domain/buildIncomeBook.js";
+import buildSummaries from "./domain/buildSummaries.js";
+import {
+  loadLastDocument,
+  saveLastDocument,
+  clearLastDocument,
+} from "./storage/persistence.js";
+import formatDate from "./utils/formatDate.js";
+import roundToCents from "./utils/roundToCents.js";
 
-const steps = ['Завантаження', 'Мапінг колонок', 'Результат'];
-const amountFields = ['cash', 'nonCash', 'refund', 'transit', 'own'];
+const steps = ["Завантаження", "Мапінг колонок", "Результат"];
+const amountFields = ["cash", "nonCash", "refund", "transit", "own"];
 
 const parseEditableDate = (value) => {
   if (!value) {
@@ -48,15 +52,15 @@ const parseEditableDate = (value) => {
 };
 
 const parseAmount = (value) => {
-  if (value === '' || value === null || value === undefined) {
-    return '';
+  if (value === "" || value === null || value === undefined) {
+    return "";
   }
-  if (typeof value === 'number') {
+  if (typeof value === "number") {
     return roundToCents(value);
   }
-  const parsed = Number(value.toString().replace(/\s/g, '').replace(',', '.'));
+  const parsed = Number(value.toString().replace(/\s/g, "").replace(",", "."));
   if (Number.isNaN(parsed)) {
-    return '';
+    return "";
   }
   return roundToCents(parsed);
 };
@@ -66,7 +70,7 @@ const normalizeIncomeRow = (row) => {
   const nextRow = {
     ...row,
     date: parsedDate ? formatDate(parsedDate) : row.date,
-    rawDate: parsedDate ?? row.rawDate
+    rawDate: parsedDate ?? row.rawDate,
   };
 
   amountFields.forEach((field) => {
@@ -75,7 +79,7 @@ const normalizeIncomeRow = (row) => {
 
   const total = amountFields.reduce((sum, field) => {
     const value = nextRow[field];
-    return sum + (typeof value === 'number' ? value : 0);
+    return sum + (typeof value === "number" ? value : 0);
   }, 0);
   nextRow.total = roundToCents(total);
 
@@ -86,15 +90,15 @@ export default function App() {
   const [rawRows, setRawRows] = useState([]);
   const [rawColumns, setRawColumns] = useState([]);
   const [mapping, setMapping] = useState({
-    date: '',
-    amount: '',
-    description: ''
+    date: "",
+    amount: "",
+    description: "",
   });
   const [groupByDay, setGroupByDay] = useState(true);
   const [showSummaries, setShowSummaries] = useState(true);
-  const [search, setSearch] = useState('');
-  const [dateRange, setDateRange] = useState({ from: '', to: '' });
-  const [error, setError] = useState('');
+  const [search, setSearch] = useState("");
+  const [dateRange, setDateRange] = useState({ from: "", to: "" });
+  const [error, setError] = useState("");
   const [editableRows, setEditableRows] = useState([]);
   const currentYear = new Date().getFullYear();
 
@@ -118,11 +122,12 @@ export default function App() {
       rawColumns,
       mapping,
       groupByDay,
-      showSummaries
+      showSummaries,
     });
   }, [rawRows, rawColumns, mapping, groupByDay, showSummaries]);
 
-  const stepIndex = rawRows.length === 0 ? 0 : mapping.date && mapping.amount ? 2 : 1;
+  const stepIndex =
+    rawRows.length === 0 ? 0 : mapping.date && mapping.amount ? 2 : 1;
 
   const incomeRows = useMemo(() => {
     if (!rawRows.length || !mapping.date || !mapping.amount) {
@@ -163,29 +168,29 @@ export default function App() {
 
   const handleFile = async (file) => {
     try {
-      setError('');
+      setError("");
       const { rows, columns } = await parseBankStatement(file);
       setRawRows(rows);
       setRawColumns(columns);
-      setMapping({ date: '', amount: '', description: '' });
+      setMapping({ date: "", amount: "", description: "" });
     } catch (err) {
-      setError(err.message || 'Не вдалося прочитати файл');
+      setError(err.message || "Не вдалося прочитати файл");
     }
   };
 
   const handleReset = () => {
     setRawRows([]);
     setRawColumns([]);
-    setMapping({ date: '', amount: '', description: '' });
+    setMapping({ date: "", amount: "", description: "" });
     setGroupByDay(true);
     setShowSummaries(true);
-    setSearch('');
-    setDateRange({ from: '', to: '' });
+    setSearch("");
+    setDateRange({ from: "", to: "" });
     clearLastDocument();
   };
 
   const handleRowUpdate = (updatedRow) => {
-    if (updatedRow.rowType === 'summary') {
+    if (updatedRow.rowType === "summary") {
       return updatedRow;
     }
     const normalized = normalizeIncomeRow(updatedRow);
@@ -193,26 +198,6 @@ export default function App() {
       prev.map((row) => (row.id === normalized.id ? normalized : row))
     );
     return normalized;
-  };
-
-  const handleAddRow = () => {
-    setEditableRows((prev) => {
-      const nextId = `manual-${Date.now()}-${prev.length + 1}`;
-      return [
-        ...prev,
-        {
-          id: nextId,
-          date: '',
-          rawDate: null,
-          cash: '',
-          nonCash: '',
-          refund: '',
-          transit: '',
-          own: '',
-          total: 0
-        }
-      ];
-    });
   };
 
   return (
@@ -223,14 +208,18 @@ export default function App() {
             Книга обліку доходів
           </Typography>
           <Typography variant="subtitle1" fontWeight={600}>
-            КНИГА ОБЛІКУ ДОХОДІВ для платників єдиного податку 1,2,3 груп, які не є платниками ПДВ
+            КНИГА ОБЛІКУ ДОХОДІВ для платників єдиного податку 1,2,3 груп, які
+            не є платниками ПДВ
           </Typography>
           <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mt: 1 }}>
-            <Typography color="text.secondary">на {documentYear} рік</Typography>
+            <Typography color="text.secondary">
+              на {documentYear} рік
+            </Typography>
             <Typography color="text.secondary">одиниці виміру: грн</Typography>
           </Stack>
           <Typography color="text.secondary">
-            Завантажте банківську виписку, налаштуйте колонки та отримайте готову книгу.
+            Завантажте банківську виписку, налаштуйте колонки та отримайте
+            готову книгу.
           </Typography>
         </Box>
 
@@ -242,9 +231,7 @@ export default function App() {
           ))}
         </Stepper>
 
-        {stepIndex === 0 && (
-          <FileDropzone onFile={handleFile} error={error} />
-        )}
+        {stepIndex === 0 && <FileDropzone onFile={handleFile} error={error} />}
 
         {stepIndex >= 1 && (
           <ColumnMapper
@@ -274,7 +261,6 @@ export default function App() {
               search={search}
               dateRange={dateRange}
               onRowUpdate={handleRowUpdate}
-              onAddRow={handleAddRow}
             />
             <ExportButtons
               rows={displayRows}
