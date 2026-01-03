@@ -12,7 +12,6 @@ import {
 import FileDropzone from "./components/FileDropzone.jsx";
 import ColumnMapper from "./components/ColumnMapper.jsx";
 import IncomeBookTable from "./components/IncomeBookTable.jsx";
-import ControlsBar from "./components/ControlsBar.jsx";
 import ExportButtons from "./components/ExportButtons.jsx";
 import parseBankStatement from "./domain/parseBankStatement.js";
 import buildIncomeBook from "./domain/buildIncomeBook.js";
@@ -245,16 +244,6 @@ export default function App() {
 
         {stepIndex === 2 && (
           <>
-            <ControlsBar
-              groupByDay={groupByDay}
-              onGroupByDayChange={setGroupByDay}
-              showSummaries={showSummaries}
-              onShowSummariesChange={setShowSummaries}
-              search={search}
-              onSearchChange={setSearch}
-              dateRange={dateRange}
-              onDateRangeChange={setDateRange}
-            />
             <Divider />
             <IncomeBookTable
               rows={displayRows}

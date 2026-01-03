@@ -44,7 +44,7 @@ export default function ColumnMapper({ rows, columns, mapping, onMappingChange, 
       if (!next.date && /date|дата/.test(lower)) {
         next.date = column;
       }
-      if (!next.amount && /amount|sum|сума|надход/.test(lower)) {
+      if (!next.amount && /amount|sum|сума|гривневе|надход/.test(lower)) {
         next.amount = column;
       }
       if (!next.description && /type|опис|detail|comment|признач/.test(lower)) {
