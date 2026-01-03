@@ -252,6 +252,7 @@ export default function App() {
             columns={rawColumns}
             mapping={mapping}
             onMappingChange={setMapping}
+            onRowsChange={setRawRows}
           />
         )}
 

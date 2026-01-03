@@ -72,7 +72,7 @@ const openPdfWindow = ({ rows, year, autoPrint }) => {
           table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 12px;
+            font-size: 10px;
           }
           th,
           td {
@@ -90,7 +90,7 @@ const openPdfWindow = ({ rows, year, autoPrint }) => {
           }
           @media print {
             body {
-              margin: 12mm;
+              margin: 10mm;
             }
           }
         </style>
