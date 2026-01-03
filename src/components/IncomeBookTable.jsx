@@ -189,17 +189,17 @@ export default function IncomeBookTable({ rows, search, dateRange, onRowUpdate, 
           border: 'none',
           '& .summary-row': {
             fontWeight: 700,
-            backgroundColor: '#f1f4ff',
+            backgroundColor: 'rgba(52, 199, 89, 0.12)',
           },
           '& .MuiDataGrid-columnHeaders': {
-            backgroundColor: '#f7f8fd',
-            borderBottom: '1px solid rgba(148, 163, 184, 0.2)',
+            backgroundColor: '#f0faf3',
+            borderBottom: '1px solid rgba(52, 199, 89, 0.18)',
           },
           '& .MuiDataGrid-cell': {
-            borderBottom: '1px solid rgba(148, 163, 184, 0.15)',
+            borderBottom: '1px solid rgba(52, 199, 89, 0.12)',
           },
           '& .MuiDataGrid-row:hover': {
-            backgroundColor: '#f4f7ff',
+            backgroundColor: 'rgba(52, 199, 89, 0.08)',
           },
           '& .MuiDataGrid-virtualScroller': {
             backgroundColor: '#ffffff',
