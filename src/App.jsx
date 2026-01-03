@@ -195,6 +195,26 @@ export default function App() {
     return normalized;
   };
 
+  const handleAddRow = () => {
+    setEditableRows((prev) => {
+      const nextId = `manual-${Date.now()}-${prev.length + 1}`;
+      return [
+        ...prev,
+        {
+          id: nextId,
+          date: '',
+          rawDate: null,
+          cash: '',
+          nonCash: '',
+          refund: '',
+          transit: '',
+          own: '',
+          total: 0
+        }
+      ];
+    });
+  };
+
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Stack spacing={3}>
@@ -254,6 +274,7 @@ export default function App() {
               search={search}
               dateRange={dateRange}
               onRowUpdate={handleRowUpdate}
+              onAddRow={handleAddRow}
             />
             <ExportButtons
               rows={displayRows}

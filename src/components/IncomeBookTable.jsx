@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { Card } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import { Button, Card } from '@mui/material';
+import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid';
 import { isWithinInterval, parseISO } from 'date-fns';
 
 const columns = [
@@ -18,7 +18,7 @@ const columns = [
   { field: 'total', headerName: 'Разом дохід', flex: 1, minWidth: 150 }
 ];
 
-export default function IncomeBookTable({ rows, search, dateRange, onRowUpdate }) {
+export default function IncomeBookTable({ rows, search, dateRange, onRowUpdate, onAddRow }) {
   const filteredRows = useMemo(() => {
     return rows.filter((row) => {
       const dateText = row?.date ? row.date.toString() : '';
@@ -62,11 +62,33 @@ export default function IncomeBookTable({ rows, search, dateRange, onRowUpdate }
         getRowClassName={(params) =>
           params.row.rowType === 'summary' ? 'summary-row' : ''
         }
+        slots={{
+          toolbar: () => (
+            <GridToolbarContainer sx={{ px: 2, py: 1 }}>
+              <Button size="small" variant="outlined" onClick={onAddRow}>
+                Додати рядок
+              </Button>
+            </GridToolbarContainer>
+          )
+        }}
         sx={{
           border: 'none',
           '& .summary-row': {
             fontWeight: 700,
             backgroundColor: '#f1f4ff'
+          },
+          '& .MuiDataGrid-columnHeaders': {
+            backgroundColor: '#f7f8fd',
+            borderBottom: '1px solid rgba(148, 163, 184, 0.2)'
+          },
+          '& .MuiDataGrid-cell': {
+            borderBottom: '1px solid rgba(148, 163, 184, 0.15)'
+          },
+          '& .MuiDataGrid-row:hover': {
+            backgroundColor: '#f4f7ff'
+          },
+          '& .MuiDataGrid-virtualScroller': {
+            backgroundColor: '#ffffff'
           }
         }}
         initialState={{
