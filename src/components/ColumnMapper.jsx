@@ -7,11 +7,13 @@ import {
   MenuItem,
   Select,
   Stack,
-  Typography
+  Typography,
+  Button
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 const previewRowsLimit = 8;
+const emptyRowTemplate = { id: 'new-row', isNew: true };
 
 function buildPreviewRows(rows) {
   return rows.slice(0, previewRowsLimit).map((row, index) => ({
@@ -20,12 +22,13 @@ function buildPreviewRows(rows) {
   }));
 }
 
-export default function ColumnMapper({ rows, columns, mapping, onMappingChange }) {
+export default function ColumnMapper({ rows, columns, mapping, onMappingChange, onRowsChange }) {
   const previewColumns = columns.map((column) => ({
     field: column,
     headerName: column,
     flex: 1,
-    minWidth: 140
+    minWidth: 140,
+    editable: true
   }));
 
   const options = columns.map((column) => (
@@ -53,6 +56,33 @@ export default function ColumnMapper({ rows, columns, mapping, onMappingChange }
       amount: next.amount || mapping.amount,
       description: next.description || mapping.description
     });
+  };
+
+  const handleRowUpdate = (updatedRow) => {
+    const { id, isNew, ...rowValues } = updatedRow;
+    if (isNew) {
+      const filled = Object.values(rowValues).some(
+        (value) => value !== '' && value !== null && value !== undefined
+      );
+      if (!filled) {
+        return { ...emptyRowTemplate };
+      }
+      onRowsChange([...rows, rowValues]);
+      return { ...rowValues, id: rows.length + 1 };
+    }
+    const index = rows.findIndex((_, rowIndex) => rowIndex + 1 === id);
+    if (index === -1) {
+      return updatedRow;
+    }
+    const nextRows = rows.map((row, rowIndex) =>
+      rowIndex + 1 === id ? { ...row, ...rowValues } : row
+    );
+    onRowsChange(nextRows);
+    return { ...rowValues, id };
+  };
+
+  const handleAddRow = () => {
+    onRowsChange([...rows, {}]);
   };
 
   return (
@@ -124,12 +154,18 @@ export default function ColumnMapper({ rows, columns, mapping, onMappingChange }
 
       <Card sx={{ height: 360 }}>
         <DataGrid
-          rows={buildPreviewRows(rows)}
+          rows={[...buildPreviewRows(rows), emptyRowTemplate]}
           columns={previewColumns}
           disableRowSelectionOnClick
+          processRowUpdate={handleRowUpdate}
           hideFooter
           sx={{ border: 'none' }}
         />
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 1 }}>
+          <Button size="small" variant="outlined" onClick={handleAddRow}>
+            Додати рядок
+          </Button>
+        </Box>
       </Card>
     </Stack>
   );
