@@ -18,7 +18,7 @@ const columns = [
   { field: 'total', headerName: 'Разом дохід', flex: 1, minWidth: 150 }
 ];
 
-export default function IncomeBookTable({ rows, search, dateRange }) {
+export default function IncomeBookTable({ rows, search, dateRange, onRowUpdate }) {
   const filteredRows = useMemo(() => {
     return rows.filter((row) => {
       const dateText = row?.date ? row.date.toString() : '';
@@ -49,6 +49,16 @@ export default function IncomeBookTable({ rows, search, dateRange }) {
         rows={filteredRows}
         columns={columns}
         disableRowSelectionOnClick
+        isCellEditable={(params) => {
+          if (params.row.rowType === 'summary') {
+            return false;
+          }
+          if (typeof params.id === 'string' && params.id.includes('-summary')) {
+            return false;
+          }
+          return true;
+        }}
+        processRowUpdate={onRowUpdate}
         getRowClassName={(params) =>
           params.row.rowType === 'summary' ? 'summary-row' : ''
         }

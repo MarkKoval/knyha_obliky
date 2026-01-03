@@ -123,7 +123,7 @@ const openPdfWindow = ({ rows, year, autoPrint }) => {
   }
 };
 
-export default function ExportButtons({ rows, disabled, year }) {
+export default function ExportButtons({ rows, disabled, year, onReset }) {
 
   const handleExcel = async () => {
     const workbook = new ExcelJS.Workbook();
@@ -183,7 +183,16 @@ export default function ExportButtons({ rows, disabled, year }) {
 
   return (
     <Card sx={{ p: 2 }}>
-      <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
+      <Stack
+        direction={{ xs: 'column', md: 'row' }}
+        spacing={2}
+        justifyContent="space-between"
+      >
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          <Button color="inherit" onClick={onReset}>
+            Очистити
+          </Button>
+        </Stack>
         <Button variant="contained" onClick={handleExcel} disabled={disabled}>
           Експорт у Excel
         </Button>
