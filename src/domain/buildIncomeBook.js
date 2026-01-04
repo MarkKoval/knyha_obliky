@@ -4,6 +4,39 @@ import normalizeNumber from '../utils/normalizeNumber.js';
 import roundToCents from '../utils/roundToCents.js';
 
 const keywords = ['надходження', 'зарахування'];
+const creditMarkers = ['кредит', 'credit'];
+const debitMarkers = ['дебет', 'debit'];
+
+function hasMeaningfulValue(value) {
+  return (
+    value !== null &&
+    value !== undefined &&
+    (typeof value === 'number' || value.toString().trim() !== '')
+  );
+}
+
+function isCreditRow(row) {
+  if (Object.prototype.hasOwnProperty.call(row, 'Кредит')) {
+    return hasMeaningfulValue(row['Кредит']);
+  }
+
+  const indicatorKey = Object.keys(row).find((key) =>
+    /вид операц|тип операц|debit|credit|дебет|кредит/i.test(key)
+  );
+
+  if (indicatorKey) {
+    const rawValue = row[indicatorKey];
+    const textValue = rawValue ? rawValue.toString().toLowerCase() : '';
+    if (creditMarkers.some((marker) => textValue.includes(marker))) {
+      return true;
+    }
+    if (debitMarkers.some((marker) => textValue.includes(marker))) {
+      return false;
+    }
+  }
+
+  return true;
+}
 
 function parseDateValue(value) {
   if (!value) {
@@ -47,12 +80,7 @@ export default function buildIncomeBook(rawRows, mapping, options) {
   const { groupByDay } = options;
 
   rawRows.forEach((row) => {
-    const creditValue = row['Кредит'];
-    const hasCreditValue =
-      creditValue !== null &&
-      creditValue !== undefined &&
-      (typeof creditValue === 'number' || creditValue.toString().trim() !== '');
-    if (!hasCreditValue) {
+    if (!isCreditRow(row)) {
       return;
     }
 
