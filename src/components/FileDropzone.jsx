@@ -47,19 +47,19 @@ export default function FileDropzone({ onFile, error }) {
           Перетягніть файл сюди або натисніть кнопку
         </Typography>
         <Typography color="text.secondary">
-          Підтримуються файли .xls та .xlsx
+          Підтримуються файли .xlsx
         </Typography>
         <Button
           variant="contained"
           size="large"
           onClick={() => inputRef.current?.click()}
         >
-          Завантажити .xls
+          Завантажити .xlsx
         </Button>
         <input
           ref={inputRef}
           type="file"
-          accept=".xls,.xlsx"
+          accept=".xlsx"
           hidden
           onChange={(event) => {
             const file = event.target.files?.[0];
