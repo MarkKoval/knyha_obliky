@@ -1,14 +1,17 @@
-import * as XLSX from 'xlsx';
+import ExcelJS from 'exceljs';
 
 export default async function parseBankStatement(file) {
   const data = await file.arrayBuffer();
-  const workbook = XLSX.read(data, { type: 'array' });
-  const sheetName = workbook.SheetNames[0];
-  if (!sheetName) {
+  const workbook = new ExcelJS.Workbook();
+  await workbook.xlsx.load(data);
+  const worksheet = workbook.worksheets[0];
+  if (!worksheet) {
     throw new Error('Файл не містить аркушів');
   }
-  const sheet = workbook.Sheets[sheetName];
-  const raw = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: true });
+  const raw = [];
+  worksheet.eachRow({ includeEmpty: true }, (row) => {
+    raw.push(row.values.slice(1));
+  });
   if (!raw.length) {
     throw new Error('Порожній файл');
   }
