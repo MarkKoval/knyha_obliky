@@ -47,7 +47,7 @@ export default function FileDropzone({ onFile, error }) {
           Перетягніть файл сюди або натисніть кнопку
         </Typography>
         <Typography color="text.secondary">
-          Підтримуються файли .xlsx
+          Підтримуються файли .xlsx | .xls
         </Typography>
         <Button
           variant="contained"
@@ -59,7 +59,7 @@ export default function FileDropzone({ onFile, error }) {
         <input
           ref={inputRef}
           type="file"
-          accept=".xlsx"
+          accept=".xlsx,.xls"
           hidden
           onChange={(event) => {
             const file = event.target.files?.[0];
